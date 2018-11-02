@@ -75,7 +75,7 @@ public class DbHelper5 extends SQLiteOpenHelper {
     }
 
 
-    public void export(FileOutputStream out) {
+    /*public void export(FileOutputStream out) {
         SQLiteDatabase db = this.getReadableDatabase(); //My Database class
         Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
         for (int i = 0; i < 100; i++) {
@@ -95,5 +95,5 @@ public class DbHelper5 extends SQLiteOpenHelper {
 
         }
 
-    }
+    }*/
 }

@@ -83,25 +83,7 @@ public class DbHelper3 extends SQLiteOpenHelper {
         }*/
     }
 
-    public String getData() {
 
-        SQLiteDatabase db = this.getWritableDatabase();
-        //String query = "SELECT * FROM " + TABLE_NAME;
-        //Cursor data = db.rawQuery(query, null);
-        //String a=data.getString()
-        //return data;
-        String[] columns = {COL1, COL2, COL3};
-        Cursor cursor = db.query(TABLE_NAME, columns, null, null, null, null, null, null);
-        StringBuffer buffer = new StringBuffer();
-        for (int i = 0; i < 30; i++) {
-            cursor.moveToPosition(i);
-            int cid = cursor.getInt(cursor.getColumnIndex(COL1));
-            String name = cursor.getString(cursor.getColumnIndex(COL2));
-            String password = cursor.getString(cursor.getColumnIndex(COL3));
-            buffer.append(cid + "  , " + name + "  , " + password + " \n");
-        }
-        return buffer.toString();
-    }
 
 
     public void Update(int id, String newans) {
@@ -114,7 +96,7 @@ public class DbHelper3 extends SQLiteOpenHelper {
     }
 
 
-    public void export(FileOutputStream out) {
+   /* public void export(FileOutputStream out) {
         SQLiteDatabase db = this.getReadableDatabase(); //My Database class
         Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
         for (int i = 0; i < 100; i++) {
@@ -136,6 +118,6 @@ public class DbHelper3 extends SQLiteOpenHelper {
 
         }
 
-    }
+    }*/
 }
 

@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private long lastTime = 0;
     private float lastX, lastY, lastZ;
-    private static final int THRESHOLD = 3000;
+    private static final int THRESHOLD = 4000;
 
 
     @Override
@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
        // altitude = (TextView) findViewById(R.id.alt);
 
 
-         Button database=(Button) findViewById(R.id.Data);
+         //Button database=(Button) findViewById(R.id.Data);
         //Button b2=(Button) findViewById(R.id.b2);
 
       //  mDatabaseHelper = new DbHelper(this);
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         
 
 
-        database.setOnClickListener(new View.OnClickListener() {
+        /*database.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 String Filename="Database.csv";
@@ -199,7 +199,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     e.printStackTrace();
                 }
             }
-        });
+        });*/
     }
 
 
@@ -298,8 +298,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 lastTime = currentTime;
                 float speed = Math.abs(x + y + z - lastX - lastY - lastZ)/ diffTime * 10000;
                 if (speed > THRESHOLD) {
-                    Log.d("sensor", "shake detected w/ speed: " + speed);
-                    Toast.makeText(this, "shake detected w/ speed: " + speed, Toast.LENGTH_SHORT).show();
+                    Log.d("sensor", "Shake Detected ,Speed: " + speed);
+                    Toast.makeText(this, "Shake Detected,Speed: " + speed, Toast.LENGTH_SHORT).show();
                 }
                 lastX = x;
                 lastY = y;

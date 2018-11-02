@@ -75,26 +75,4 @@ public class DbHelper4 extends SQLiteOpenHelper {
     }
 
 
-    public void export(FileOutputStream out) {
-        SQLiteDatabase db = this.getReadableDatabase(); //My Database class
-        Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
-        for (int i = 0; i < 10; i++) {
-            cursor.moveToPosition(i);
-            int index = cursor.getInt(cursor.getColumnIndex(COL1));
-            String d1 = cursor.getString(cursor.getColumnIndex(COL2));
-            String d2 = cursor.getString(cursor.getColumnIndex(COL3));
-            String d3 = cursor.getString(cursor.getColumnIndex(COL4));
-
-//            String d5 = cursor.getString(cursor.getColumnIndex(COL6));
-            String data = index + " |" + d1+" |" + d2+ " |"+d3+ "\n";
-            try {
-                out.write(data.getBytes());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-
-        }
-
-    }
 }
