@@ -28,10 +28,18 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener {
-    DbHelper mDatabaseHelper;
+ //   DbHelper mDatabaseHelper;
+    DbHelper1 DatabaseAccelerometer;
+    DbHelper2 DatabaseGyroscope;
+    DbHelper3 DatabaseOrientation;
+    DbHelper4 DatabaseGPS;
+    DbHelper5 DatabaseProximity;
     private int temp = 0;
     public static final String TAG = "MainActivity";
     private SensorManager mSensorManager;
@@ -82,7 +90,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
          Button database=(Button) findViewById(R.id.Data);
         //Button b2=(Button) findViewById(R.id.b2);
 
-        mDatabaseHelper = new DbHelper(this);
+      //  mDatabaseHelper = new DbHelper(this);
+        DatabaseAccelerometer= new DbHelper1(this);
+        DatabaseGyroscope= new DbHelper2(this);
+        DatabaseOrientation= new DbHelper3(this);
+        DatabaseGPS= new DbHelper4(this);
+        DatabaseProximity= new DbHelper5(this);
 
         //LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         //LocationProvider provider = locationManager.getProvider(LocationManager.GPS_PROVIDER);
@@ -93,7 +106,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             public void onLocationChanged(Location location) {
                 //Log.d(TAG, "ds" + location.getLatitude());
                 longi.setText("Longitude: "+location.getLongitude());
-                latt.setText("Lattitude"+location.getLatitude());
+                latt.setText("Latitude"+location.getLatitude());
+                DatabaseGPS.addData(getDateTime(),"Longitude:"+location.getLongitude(),"Latitude:"+location.getLatitude());
               //  mDatabaseHelper.addSensorGPS("Longitude:"+location.getLongitude()+",Lattitude:"+location.getLatitude());
                // altitude.setText("Altitude"+location.getAltitude());
 
@@ -115,8 +129,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(i);
 
-
             }
+
         };
         //configure_button();
 
@@ -157,8 +171,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         Orientatation = mSensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
         if (Orientatation != null) {
             Log.d(TAG, "Success! There's a O");
+           // Log.d(TAG, getDateTime());
+
         } else {
-            Log.d(TAG, " Failure! No O");
+            Log.d(TAG, getDateTime());
         }
 
         Proximity = mSensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY);
@@ -177,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 File file = new File(getApplicationContext().getFilesDir(), Filename);
                 try {
                     FileOutputStream out=openFileOutput(Filename, Context.MODE_PRIVATE);
-                    mDatabaseHelper.export(out);
+                    DatabaseAccelerometer.export(out);
                     out.close();
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -224,6 +240,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mSensorManager.unregisterListener(this);
         locationManager.removeUpdates(listener);
     }
+    private String getDateTime() {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(
+                "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date = new Date();
+        return dateFormat.format(date);
+    }
 
     @Override
     public final void onAccuracyChanged(Sensor sensor, int accuracy) {
@@ -266,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             a1.setText("X: "+event.values[0]);
             a2.setText("Y: "+event.values[1]);
             a3.setText("Z: "+event.values[2]);
-            //mDatabaseHelper.addSensorA(col2);
+            //DatabaseAccelerometer.addData(getDateTime(),"X:"+event.values[0],"Y:"+event.values[1],"Z:"+event.values[2]);
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
@@ -294,6 +316,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             g2.setText("Y: "+event.values[1]);
             g3.setText("Z: "+event.values[2]);
             //mDatabaseHelper.Update(ig,col3);
+            DatabaseGyroscope.addData(getDateTime(),"X:"+event.values[0],"Y:"+event.values[1],"Z:"+event.values[2]);
             ig++;
 
 
@@ -305,12 +328,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             o2.setText("Y: "+event.values[1]);
             o3.setText("Z: "+event.values[2]);
            // mDatabaseHelper.addSensorO(col4);
+            DatabaseOrientation.addData(getDateTime(),"X:"+event.values[0],"Y:"+event.values[1],"Z:"+event.values[2]);
 
         }
         else if(s.getType()==Sensor.TYPE_PROXIMITY){
-            String col5="("+event.values[0]+")";
+            String col5="Value:"+event.values[0];
             p.setText("Value: "+ event.values[0]);
             //mDatabaseHelper.addSensorP(col5);
+            DatabaseProximity.addData(getDateTime(),col5);
 
         }
         //mDatabaseHelper.addData(col)
