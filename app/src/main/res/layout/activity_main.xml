@@ -206,28 +206,15 @@
                 android:id="@+id/h1"
                 android:layout_width="164dp"
                 android:layout_height="41dp"
-                android:layout_marginBottom="403dp"
                 android:layout_marginTop="16dp"
                 android:text="Accelerometer"
                 android:textColor="#FF000000"
                 android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/Data"
                 app:layout_constraintEnd_toEndOf="@+id/h2"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="@+id/a1"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/Data"
-                android:layout_width="195dp"
-                android:layout_height="0dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginStart="16dp"
-                android:text="Database"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/h1" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
 </android.support.constraint.ConstraintLayout>
