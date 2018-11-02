@@ -139,5 +139,3 @@ public class DbHelper1 extends SQLiteOpenHelper {
     }
 }
 
-
-

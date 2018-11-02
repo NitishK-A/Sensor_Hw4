@@ -78,7 +78,7 @@ public class DbHelper4 extends SQLiteOpenHelper {
     public void export(FileOutputStream out) {
         SQLiteDatabase db = this.getReadableDatabase(); //My Database class
         Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             cursor.moveToPosition(i);
             int index = cursor.getInt(cursor.getColumnIndex(COL1));
             String d1 = cursor.getString(cursor.getColumnIndex(COL2));

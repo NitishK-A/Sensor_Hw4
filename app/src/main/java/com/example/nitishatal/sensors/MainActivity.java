@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     private long lastTime = 0;
     private float lastX, lastY, lastZ;
-    private static final int THRESHOLD = 2500;
+    private static final int THRESHOLD = 3000;
 
 
     @Override
@@ -104,7 +104,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         listener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                //Log.d(TAG, "ds" + location.getLatitude());
+                Log.d(TAG, "ds" + location.getLatitude());
                 longi.setText("Longitude: "+location.getLongitude());
                 latt.setText("Latitude"+location.getLatitude());
                 DatabaseGPS.addData(getDateTime(),"Longitude:"+location.getLongitude(),"Latitude:"+location.getLatitude());
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         database.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String Filename="QuizQnA.csv";
+                String Filename="Database.csv";
                 File file = new File(getApplicationContext().getFilesDir(), Filename);
                 try {
                     FileOutputStream out=openFileOutput(Filename, Context.MODE_PRIVATE);
@@ -288,7 +288,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             a1.setText("X: "+event.values[0]);
             a2.setText("Y: "+event.values[1]);
             a3.setText("Z: "+event.values[2]);
-            //DatabaseAccelerometer.addData(getDateTime(),"X:"+event.values[0],"Y:"+event.values[1],"Z:"+event.values[2]);
+            DatabaseAccelerometer.addData(getDateTime(),"X:"+event.values[0],"Y:"+event.values[1],"Z:"+event.values[2]);
             float x = event.values[0];
             float y = event.values[1];
             float z = event.values[2];
