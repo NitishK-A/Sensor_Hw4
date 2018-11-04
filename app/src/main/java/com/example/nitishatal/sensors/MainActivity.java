@@ -3,7 +3,9 @@ package com.example.nitishatal.sensors;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -13,6 +15,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Build;
+import android.os.Handler;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private long lastTime = 0;
     private float lastX, lastY, lastZ;
     private static final int THRESHOLD = 4000;
+    private int configOrientation;
 
 
     @Override
@@ -279,6 +283,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public final void onSensorChanged(SensorEvent event) {
         int ig=1;
+        String col4="";
         //String col1,col2,col3,col4;
 
         Sensor s=event.sensor;
@@ -321,8 +326,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
 
         }
-        else if(s.getType()==Sensor.TYPE_ORIENTATION){
-            String col4=event.values[0]+","+event.values[1]+","+event.values[2];
+        if(s.getType()==Sensor.TYPE_ORIENTATION){
+            col4=event.values[0]+","+event.values[1]+","+event.values[2];
             //Log.d(TAG,"X: "+event.values[0]+" Y: "+event.values[1]+" Z: "+event.values[2]);
             o1.setText("X: "+event.values[0]);
             o2.setText("Y: "+event.values[1]);
@@ -331,15 +336,71 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             DatabaseOrientation.addData(getDateTime(),"X:"+event.values[0],"Y:"+event.values[1],"Z:"+event.values[2]);
 
         }
-        else if(s.getType()==Sensor.TYPE_PROXIMITY){
+        if(s.getType()==Sensor.TYPE_PROXIMITY){
+
             String col5="Value:"+event.values[0];
             p.setText("Value: "+ event.values[0]);
+
             //mDatabaseHelper.addSensorP(col5);
             DatabaseProximity.addData(getDateTime(),col5);
+            if(event.values[0]<1){
+                final Toast[] Toast1 = {null};
+                final Toast[] Toast2={null};
+                int i=0;
+                configOrientation = this.getResources().getConfiguration().orientation;
+                //Toast.makeText(this, "Orientation"+col4, Toast.LENGTH_SHORT).show();
+
+                switch (configOrientation)
+                {
+                    case Configuration.ORIENTATION_LANDSCAPE:
+                    {
+
+                        if (Toast1[0] == null)
+                        {
+                            Toast1[0] = Toast.makeText(this, "Orientation Landscape", Toast.LENGTH_SHORT);
+                            Toast1[0].show();
+                            new Handler().postDelayed(new Runnable() {
+
+                                @Override
+                                public void run()
+                                {
+                                    Toast1[0].cancel();
+                                    Toast1[0] = null;
+                                }
+                            }, 200);
+
+                        }
+
+                        break;
+                    }
+                    case Configuration.ORIENTATION_PORTRAIT:
+                    {
+                        if (Toast2[0] == null)
+                        {
+                            Toast2[0] = Toast.makeText(this, "Orientation Potrait", Toast.LENGTH_SHORT);
+                            Toast2[0].show();
+                            new Handler().postDelayed(new Runnable() {
+
+                                @Override
+                                public void run()
+                                {
+                                    Toast2[0].cancel();
+                                    Toast2[0] = null;
+                                }
+                            }, 200);
+
+                        }
+
+                        break;
+                    }
+
+                }
+            }
 
         }
         //mDatabaseHelper.addData(col)
 
 
     }
+
 }
